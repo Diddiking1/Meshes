@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Meshes.sln"
+    "dotnet.defaultSolution": "My project.sln"
 }
