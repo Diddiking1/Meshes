@@ -135,6 +135,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "se.his.procedural-grid": {
+      "version": "https://github.com/UniversityOfSkovde/Procedural-Grid.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "a678f09c5f67193f49d2aac5ea2b9e19afbd2e83"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
