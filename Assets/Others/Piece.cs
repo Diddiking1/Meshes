@@ -46,11 +46,44 @@ public class Piece : MonoBehaviour
     void Update()
     {
         var tile = GetComponent<GridTile>();
-        if (tile.GetProperty(GridTileRoad.road))
+        if (tile.GetProperty(GridTileRoad.Forrest))
         {
-            BuildCube();
+            BuildPlane();
         }
 
+    }
+    private void BuildPlane()
+    {
+        MeshBuilder builder = new MeshBuilder();
+
+        builder.VertexMatrix =
+        Matrix4x4.Translate(new Vector3(0, 0.2f, 0));
+
+
+        builder.TextureMatrix =
+        Matrix4x4.Translate(new Vector3(0, 0.5f, 0.0f)) *
+        Matrix4x4.Scale(new Vector3(0.5f, 0.5f, 1.0f));
+
+        int a = builder.AddVertex(
+        new Vector3(0, 0, 0),
+        new Vector3(0, 1, 0),
+        new Vector2(0, 0));
+        int b = builder.AddVertex(
+        new Vector3(0, 0, 1),
+        new Vector3(0, 1, 0),
+        new Vector2(0, 1));
+        int c = builder.AddVertex(
+        new Vector3(1, 0, 1),
+        new Vector3(0, 1, 0),
+        new Vector2(1, 1));
+        int d = builder.AddVertex(
+        new Vector3(1, 0, 0),
+        new Vector3(0, 1, 0),
+        new Vector2(1, 0));
+
+        builder.AddQuad(a, b, c, d);
+     
+        builder.Build(mesh);
     }
     private void BuildCube()
     {
