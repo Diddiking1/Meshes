@@ -39,4 +39,11 @@ int topRight, int bottomRight)
         triangles.Add(topRight);
         triangles.Add(bottomRight);
     }
+    public void AddTriangle (int first, int second, int last)
+    {
+        triangles.Add(first);
+        triangles.Add(second);
+        triangles.Add(last);
+    }
+
 }
