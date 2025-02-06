@@ -50,6 +50,12 @@ public class Piece : MonoBehaviour
     void Update()
     {
         var tile = GetComponent<GridTile>();
+        if (!tile.GetProperty(GridTileRoad.Forrest) && !tile.GetProperty(GridTileRoad.walkway) && !tile.GetProperty(GridTileRoad.road))
+        {
+            MeshBuilder builder = new MeshBuilder();
+            BuildPlane(builder, 1, 1, 0, 1);
+            builder.Build(mesh);
+        }
         if (tile.GetProperty(GridTileRoad.Forrest))
         {
             MeshBuilder builder = new MeshBuilder();
