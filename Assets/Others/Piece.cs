@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Grid;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [ExecuteAlways]
 
@@ -9,6 +11,7 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour
 {
+    //Yes the code is horrible, I had some complications in my personal life and did all of this in three days. 
     private bool South = false, West = false, North = false, East = false;
     private Mesh mesh;
     void Start()
@@ -61,7 +64,6 @@ public class Piece : MonoBehaviour
             {
                 if (i % 2 == 0)
                 {
-                    Debug.Log(i);
                     if (tile.GetNeighbourProperty(i, GridTileRoad.road))
                     {
                         switch (i)
@@ -84,7 +86,6 @@ public class Piece : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log(i);
                         // Reset to false when there's no road
                         switch (i)
                         {
@@ -109,17 +110,16 @@ public class Piece : MonoBehaviour
             BuildRoad(builder, 1);
             builder.Build(mesh);
         }
-        else if (tile.GetProperty(GridTileRoad.road))
+        if (tile.GetProperty(GridTileRoad.walkway) && tile.GetProperty(GridTileRoad.road))
         {
             MeshBuilder builder = new MeshBuilder();
+            BuildStreetSign(builder, 0.2f, new Vector3(0.1f, 0, 0));
             BuildRoad(builder, 1);
             builder.Build(mesh);
         }
-        else if (!tile.GetProperty(GridTileRoad.walkway))
+        else if (tile.GetProperty(GridTileRoad.walkway))
         {
-            MeshBuilder builder = new MeshBuilder();
-            BuildCircle(builder, 0.25f, new Vector3(0,0,0), new Vector2 (0.0f, 0.5f));
-            builder.Build(mesh);
+
         }
 
     }
@@ -169,7 +169,6 @@ public class Piece : MonoBehaviour
         // GrassTexture
 
         // South
-        Debug.Log(South);
         if (South)
         {
             // Curb Top Texture
@@ -237,10 +236,30 @@ public class Piece : MonoBehaviour
         BuildPlane(builder, new Vector3(0.9f, 0, 0.1f), new Vector3(1f, 0, 0.1f), new Vector3(1f, 0, 0f), new Vector3(0.9f, 0, 0f), 0, 0.9f, 0, 0.1f);
 
     }
-    private void BuildCylinder(MeshBuilder builder, float Scale, Vector3 Position, float Height, Vector2 uvOffset)
+    private void BuildStreetSign(MeshBuilder builder, float Scale, Vector3 Position)
     {
-                // YIPPE, CIRCLES. I am so done with uvs
 
+
+        BuildCylinder(builder, Scale / 8, new Vector3(0, 0.5f, 0) * Scale * 3 + Position, 1, new Vector2(0, 0.5f), 1);
+        BuildCylinder(builder, Scale / 16, new Vector3(0, 1f, 0) * Scale * 4 + Position, 42, new Vector2(0.5f, 0.75f), 0.5f);
+
+        BuildPlane(builder, new Vector3(-0.5f, 2.3f, -0.35f) * Scale + Position, new Vector3(-0.5f, 2.3f, 0.65f) * Scale + Position, new Vector3(0.5f, 2.3f, 0.65f) * Scale + Position, new Vector3(0.5f, 2.3f, -0.35f) * Scale + Position, new Vector3(1, 0, 0), 270, 1, 1, 0.5f);
+        BuildPlane(builder, new Vector3(-0.5f, 2.3f, -0.35f) * Scale + Position, new Vector3(-0.5f, 2.3f, 0.65f) * Scale + Position, new Vector3(0.5f, 2.3f, 0.65f) * Scale + Position, new Vector3(0.5f, 2.3f, -0.35f) * Scale + Position, new Vector3(1, 0, 0), 90, 2f, 0f, 0.25f);
+
+
+        builder.TextureMatrix =
+        Matrix4x4.Translate(new Vector2(0.5f, 0.75f)) *
+        Matrix4x4.Scale(new Vector3(0.25f, 0.25f, 1.0f));
+
+        BuildTriangle(builder, new Vector3(0.5f, 2.31f, 0.65f) * Scale + Position, new Vector3(0, 2.31f, -0.35f) * Scale + Position, new Vector3(-0.5f, 2.31f, 0.65f) * Scale + Position, new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0));
+        BuildCircle(builder, Scale / 16, new Vector3(0, 2, 0.1f) * Scale * 1.75f + Position, new Vector2(0.5f, 1f), 90, new Vector3(1, 0, 0), 0.5f);
+        //BuildPlane(builder)
+
+    }
+    private void BuildCylinder(MeshBuilder builder, float Scale, Vector3 Position, float Height, Vector2 uvOffset, float textureScale)
+    {
+        // YIPPE, CIRCLES. I am so done with uvs
+        // Dont... Dont look at this, pls, I... I'm not proud of this.
 
         builder.VertexMatrix =
         Matrix4x4.Translate(Position) *
@@ -248,7 +267,7 @@ public class Piece : MonoBehaviour
 
         builder.TextureMatrix =
         Matrix4x4.Translate(new Vector3(uvOffset.x, uvOffset.y, 0)) *
-        Matrix4x4.Scale(new Vector3(0.5f, 0.5f, 1.0f));
+        Matrix4x4.Scale(new Vector3(0.5f * textureScale, 0.5f * textureScale, 1.0f));
 
         int points = 12;
         float angle = 360f / points;
@@ -271,14 +290,25 @@ public class Piece : MonoBehaviour
         }
         for (int i = 0; i < points; i++)
         {
+            builder.VertexMatrix =
+            Matrix4x4.Translate(Position) *
+            Matrix4x4.Scale(new Vector3(1f, 1f, 1f) * Scale);
+
             BuildTriangle(builder, vertices[0], vertices[(i + 2) % (points + 1)], vertices[i + 1],
             uv[0], uv[(i + 2) % (points + 1)], uv[i + 1]);
+
+            BuildPlane(builder, vertices[i + 1], vertices[(i + 2) % (points + 1)], Height);
         }
+        builder.VertexMatrix =
+            Matrix4x4.Translate(Position) *
+            Matrix4x4.Scale(new Vector3(1f, 1f, 1f) * Scale);
         BuildTriangle(builder, vertices[0], vertices[1], vertices[vertices.Count - 1], uv[0], uv[1], uv[vertices.Count - 1]);
 
-        
+        BuildPlane(builder, vertices[vertices.Count - 1], vertices[1], Height);
+
+
     }
-    private void BuildCircle(MeshBuilder builder, float Scale, Vector3 Position, Vector2 uvOffset)
+    private void BuildCircle(MeshBuilder builder, float Scale, Vector3 Position, Vector2 uvOffset, float rotationAngle, Vector3 Rotation, float textureScale)
     {
 
         // YIPPE, CIRCLES. I am so done with uvs
@@ -286,11 +316,12 @@ public class Piece : MonoBehaviour
 
         builder.VertexMatrix =
         Matrix4x4.Translate(Position) *
+        Matrix4x4.Rotate(Quaternion.AngleAxis(rotationAngle, Rotation)) *
         Matrix4x4.Scale(new Vector3(1f, 1f, 1f) * Scale);
 
         builder.TextureMatrix =
         Matrix4x4.Translate(new Vector3(uvOffset.x, uvOffset.y, 0)) *
-        Matrix4x4.Scale(new Vector3(0.5f, 0.5f, 1.0f));
+        Matrix4x4.Scale(new Vector3(0.5f * textureScale, 0.5f * textureScale, 1.0f));
 
         int points = 12;
         float angle = 360f / points;
@@ -335,6 +366,7 @@ public class Piece : MonoBehaviour
         builder.AddTriangle(a, b, c);
     }
     private void BuildForrest(MeshBuilder builder)
+
     {
 
         builder.VertexMatrix =
@@ -363,6 +395,32 @@ public class Piece : MonoBehaviour
         new Vector2(1, 0));
 
         builder.AddQuad(a, b, c, d);
+    }
+    private void BuildPlane(MeshBuilder builder, Vector3 pos1, Vector3 pos2, float Length)
+    {
+        // Fix normals later
+
+
+        int a = builder.AddVertex(
+        pos1,
+        new Vector3(-1, 0, 0),
+        new Vector2(0, 0));
+        int b = builder.AddVertex(
+        pos2,
+        new Vector3(-1, 0, 0),
+        new Vector2(0, 1));
+        int c = builder.AddVertex(
+        new Vector3(pos2.x, -Length, pos2.z),
+        new Vector3(-1, 0, 0),
+        new Vector2(1, 1));
+        int d = builder.AddVertex(
+        new Vector3(pos1.x, -Length, pos1.z),
+        new Vector3(-1, 0, 0),
+        new Vector2(1, 0));
+
+        builder.AddQuad(a, b, c, d);
+
+
     }
     private void BuildPlane(MeshBuilder builder, float width, float Length, float uvX, float uvY)
     {
