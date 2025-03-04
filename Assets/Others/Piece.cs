@@ -650,7 +650,7 @@ public class Piece : MonoBehaviour
 
         // these should be my only stretched textures (unless I missed some). Unfortunetly cant fix these in time. note to self: I sould not be doing this for hand, trigonometry can automate this.
 
-        BuildTriangle(builder, new Vector3(-0.05f, 2.32f, 0.1f) * Scale + Position, new Vector3(0.05f, 2.32f, 0.1f) * Scale + Position, new Vector3(0, 2.32f, -0.1f) * Scale + Position, new Vector2(0, 0), new Vector2(1f, 0), new Vector2(0.5f, 1));
+        BuildTriangle(builder, new Vector3(-0.05f, 2.32f, 0.1f) * Scale + Position, new Vector3(0.05f, 2.32f, 0.1f) * Scale + Position, new Vector3(0, 2.32f, -0.1f) * Scale + Position, new Vector2(0, 0), new Vector2(1f, 0), new Vector2(0.5f, 1), true);
 
         BuildPlane(builder, new Vector3(-0.18f, 2.32f, 0.25f) * Scale + Position, new Vector3(-0.25f, 2.32f, 0.3f) * Scale + Position, new Vector3(0.25f, 2.32f, 0.3f) * Scale + Position, new Vector3(0.18f, 2.32f, 0.25f) * Scale + Position, true);
 
@@ -787,6 +787,25 @@ public class Piece : MonoBehaviour
         uv3);
         builder.AddTriangle(a, b, c);
     }
+    private void BuildTriangle(MeshBuilder builder, Vector3 pos1, Vector3 pos2, Vector3 pos3, Vector2 uv1, Vector2 uv2, Vector2 uv3, bool correctUvOnThisPlane)
+    {
+        //yes, these are not flexible. its mostly just here to fix the sign before turn in.
+        var baseUv = pos1.z - pos3.z;
+        var height = baseUv / (pos1 - pos2).magnitude;
+        int a = builder.AddVertex(
+        pos1,
+        new Vector3(0, 1, 0),
+        uv1);
+        int b = builder.AddVertex(
+        pos2,
+        new Vector3(0, 1, 0),
+        uv2);
+        int c = builder.AddVertex(
+        pos3,
+        new Vector3(0, 1, 0),
+        new Vector3(uv3.x, height));
+        builder.AddTriangle(a, b, c);
+    }
     private void BuildForrest(MeshBuilder builder)
 
     {
@@ -907,23 +926,25 @@ public class Piece : MonoBehaviour
 
         builder.AddQuad(a, b, c, d);
     }
-        private void BuildPlane(MeshBuilder builder, Vector3 pos1, Vector3 pos2, Vector3 pos3, Vector3 pos4, bool correctUvOnThisPlane)
+    private void BuildPlane(MeshBuilder builder, Vector3 pos1, Vector3 pos2, Vector3 pos3, Vector3 pos4, bool correctUvOnThisPlane)
     {
+        // yes, this is not flexible, infact, it only really works for the sign, but it will have to do.
 
         var baseUv = (pos2 - pos3).magnitude;
         var problematicRow = (pos1 - pos4).magnitude;
-        var difference = MathF.Abs((pos1 - pos4).magnitude - baseUv)/2;
+        var difference = MathF.Abs((pos1 - pos4).magnitude - baseUv) / 2;
         problematicRow += difference;
         Debug.Log(problematicRow);
         Debug.Log(baseUv);
-
+        var baseUvY = (pos2.z - pos1.z);
+        var uvHeight = baseUvY / baseUv;
 
         var firstPoint = (baseUv - problematicRow) / baseUv;
         var secondPoint = problematicRow / baseUv;
         Debug.Log(firstPoint);
         Debug.Log(secondPoint);
         //var firstUvDistance = pos2.magnitude + pos1.x;
-        
+
 
 
         int a = builder.AddVertex(
@@ -933,11 +954,11 @@ public class Piece : MonoBehaviour
         int b = builder.AddVertex(
         pos2,
         new Vector3(0, 1, 0),
-        new Vector2(0, 1));
+        new Vector2(0, uvHeight));
         int c = builder.AddVertex(
         pos3,
         new Vector3(0, 1, 0),
-        new Vector2(1, 1));
+        new Vector2(1, uvHeight));
         int d = builder.AddVertex(
         pos4,
         new Vector3(0, 1, 0),
