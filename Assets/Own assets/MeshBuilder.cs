@@ -17,7 +17,9 @@ public class MeshBuilder
         mesh.SetNormals(normals);
         mesh.SetUVs(0, uv);
         mesh.SetIndices(triangles, MeshTopology.Triangles, 0);
+        mesh.RecalculateTangents();
         mesh.MarkModified();
+
     }
     public int AddVertex(Vector3 position, Vector3 normal, Vector2 uv)
     {
@@ -39,7 +41,7 @@ int topRight, int bottomRight)
         triangles.Add(topRight);
         triangles.Add(bottomRight);
     }
-    public void AddTriangle (int first, int second, int last)
+    public void AddTriangle(int first, int second, int last)
     {
         triangles.Add(first);
         triangles.Add(second);

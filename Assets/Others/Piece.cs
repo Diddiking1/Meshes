@@ -490,7 +490,7 @@ public class Piece : MonoBehaviour
         // right    
         BuildPlane(builder, new Vector3(0.9f, 0, 0.9f), new Vector3(0.9f, 0, 1f), new Vector3(1f, 0, 1f), new Vector3(1f, 0, 0.9f), 0.9f, 1f, 0.9f, 1f);
         // Down  
-        BuildPlane(builder, new Vector3(0.9f, 0, 0.1f), new Vector3(1f, 0, 0.1f), new Vector3(1f, 0, 0f), new Vector3(0.9f, 0, 0f), 0.9f, 1f, 0, 0.1f);
+        BuildPlane(builder, new Vector3(0.9f, 0, 0f), new Vector3(0.9f, 0, 0.1f), new Vector3(1f, 0, 0.1f), new Vector3(1f, 0, 0f), 0.9f, 1f, 0, 0.1f);
         // Left  
         BuildPlane(builder, new Vector3(0.0f, 0, 0.0f), new Vector3(0.0f, 0, 0.1f), new Vector3(0.1f, 0, 0.1f), new Vector3(0.1f, 0, 0.0f), 0, 0.1f, 0.0f, 0.1f);
         // Up  
@@ -594,7 +594,7 @@ public class Piece : MonoBehaviour
         // right    
         BuildPlane(builder, new Vector3(0.9f, 0, 0.9f), new Vector3(0.9f, 0, 1f), new Vector3(1f, 0, 1f), new Vector3(1f, 0, 0.9f), 0.9f, 1f, 0.9f, 1f);
         // Down  
-        BuildPlane(builder, new Vector3(0.9f, 0, 0.1f), new Vector3(1f, 0, 0.1f), new Vector3(1f, 0, 0f), new Vector3(0.9f, 0, 0f), 0.9f, 1f, 0, 0.1f);
+        BuildPlane(builder, new Vector3(0.9f, 0, 0f), new Vector3(0.9f, 0, 0.1f), new Vector3(1f, 0, 0.1f), new Vector3(1f, 0, 0f), 0.9f, 1f, 0, 0.1f);
         // Left  
         BuildPlane(builder, new Vector3(0.0f, 0, 0.0f), new Vector3(0.0f, 0, 0.1f), new Vector3(0.1f, 0, 0.1f), new Vector3(0.1f, 0, 0.0f), 0, 0.1f, 0.0f, 0.1f);
         // Up  
@@ -633,7 +633,7 @@ public class Piece : MonoBehaviour
         BuildPlane(builder, new Vector3(-0.5f, 2.3f, -0.35f) * Scale + Position, new Vector3(-0.5f, 2.3f, 0.65f) * Scale + Position, new Vector3(0.5f, 2.3f, 0.65f) * Scale + Position, new Vector3(0.5f, 2.3f, -0.35f) * Scale + Position, new Vector3(1, 0, 0), 270, 1, 1, 0.5f);
 
         BuildPlane(builder, new Vector3(-0.5f, 2.3f, -0.35f) * Scale + Position, new Vector3(-0.5f, 2.3f, 0.65f) * Scale + Position, new Vector3(0.5f, 2.3f, 0.65f) * Scale + Position, new Vector3(0.5f, 2.3f, -0.35f) * Scale + Position, new Vector3(1, 0, 0), 90, 2f, 0f, 0.25f);
-        
+
 
 
         builder.TextureMatrix =
@@ -642,7 +642,7 @@ public class Piece : MonoBehaviour
 
         // this is stretched, Too little time left to fix (please dont flunk me on a blank texture)
         // I fixed it :). Not corner to corner but not stretched
-        BuildTriangle(builder, new Vector3(0.5f, 2.31f, 0.65f) * Scale + Position, new Vector3(0, 2.31f, -0.35f) * Scale + Position, new Vector3(-0.5f, 2.31f, 0.65f) * Scale + Position, new Vector2(0, 0.6f), new Vector2(1, 1), new Vector2(0.6f, 0));
+        BuildTriangle(builder, new Vector3(0.5f, 2.31f, 0.65f) * Scale + Position, new Vector3(0, 2.31f, -0.35f) * Scale + Position, new Vector3(-0.5f, 2.31f, 0.65f) * Scale + Position, new Vector2(1f, 0), new Vector2(0.5f, 1), new Vector2(0, 0));
 
         builder.TextureMatrix =
         Matrix4x4.Translate(new Vector2(0.75f, 0.5f)) *
@@ -650,13 +650,13 @@ public class Piece : MonoBehaviour
 
         // these should be my only stretched textures (unless I missed some). Unfortunetly cant fix these in time. note to self: I sould not be doing this for hand, trigonometry can automate this.
 
-        BuildTriangle(builder, new Vector3(0.05f, 2.32f, 0.1f) * Scale + Position, new Vector3(0, 2.32f, -0.1f) * Scale + Position, new Vector3(-0.05f, 2.32f, 0.1f) * Scale + Position, new Vector2(0, 0.6f), new Vector2(1, 1), new Vector2(0.6f, 0));
+        BuildTriangle(builder, new Vector3(-0.05f, 2.32f, 0.1f) * Scale + Position, new Vector3(0.05f, 2.32f, 0.1f) * Scale + Position, new Vector3(0, 2.32f, -0.1f) * Scale + Position, new Vector2(0, 0), new Vector2(1f, 0), new Vector2(0.5f, 1));
 
-        BuildPlane(builder,new Vector3(0.25f, 2.32f, 0.3f) * Scale + Position, new Vector3(0.18f, 2.32f, 0.25f) * Scale + Position, new Vector3(-0.18f, 2.32f, 0.25f) * Scale + Position, new Vector3(-0.25f, 2.32f, 0.3f) * Scale + Position);
-        
-        BuildPlane(builder,new Vector3(0.35f, 2.32f, 0.4f) * Scale + Position, new Vector3(0.28f, 2.32f, 0.35f) * Scale + Position, new Vector3(-0.28f, 2.32f, 0.35f) * Scale + Position, new Vector3(-0.35f, 2.32f, 0.4f) * Scale + Position);
-        
-        BuildPlane(builder,new Vector3(0.38f, 2.32f, 0.5f) * Scale + Position, new Vector3(0.32f, 2.32f, 0.45f) * Scale + Position, new Vector3(-0.32f, 2.32f, 0.45f) * Scale + Position, new Vector3(-0.38f, 2.32f, 0.5f) * Scale + Position);
+        BuildPlane(builder, new Vector3(-0.18f, 2.32f, 0.25f) * Scale + Position, new Vector3(-0.25f, 2.32f, 0.3f) * Scale + Position, new Vector3(0.25f, 2.32f, 0.3f) * Scale + Position, new Vector3(0.18f, 2.32f, 0.25f) * Scale + Position, true);
+
+        BuildPlane(builder, new Vector3(-0.28f, 2.32f, 0.35f) * Scale + Position, new Vector3(-0.35f, 2.32f, 0.4f) * Scale + Position, new Vector3(0.35f, 2.32f, 0.4f) * Scale + Position, new Vector3(0.28f, 2.32f, 0.35f) * Scale + Position, true);
+
+        BuildPlane(builder, new Vector3(-0.32f, 2.32f, 0.45f) * Scale + Position, new Vector3(-0.38f, 2.32f, 0.5f) * Scale + Position, new Vector3(0.38f, 2.32f, 0.5f) * Scale + Position, new Vector3(0.32f, 2.32f, 0.45f) * Scale + Position, true);
 
         BuildCircle(builder, Scale / 16, new Vector3(0, 2, 0.1f) * Scale * 1.75f + Position, new Vector2(0.5f, 1f), 90, new Vector3(1, 0, 0), 0.5f);
         //BuildPlane(builder)
@@ -907,6 +907,44 @@ public class Piece : MonoBehaviour
 
         builder.AddQuad(a, b, c, d);
     }
+        private void BuildPlane(MeshBuilder builder, Vector3 pos1, Vector3 pos2, Vector3 pos3, Vector3 pos4, bool correctUvOnThisPlane)
+    {
+
+        var baseUv = (pos2 - pos3).magnitude;
+        var problematicRow = (pos1 - pos4).magnitude;
+        var difference = MathF.Abs((pos1 - pos4).magnitude - baseUv)/2;
+        problematicRow += difference;
+        Debug.Log(problematicRow);
+        Debug.Log(baseUv);
+
+
+        var firstPoint = (baseUv - problematicRow) / baseUv;
+        var secondPoint = problematicRow / baseUv;
+        Debug.Log(firstPoint);
+        Debug.Log(secondPoint);
+        //var firstUvDistance = pos2.magnitude + pos1.x;
+        
+
+
+        int a = builder.AddVertex(
+        pos1,
+        new Vector3(0, 1, 0),
+        new Vector2(firstPoint, 0));
+        int b = builder.AddVertex(
+        pos2,
+        new Vector3(0, 1, 0),
+        new Vector2(0, 1));
+        int c = builder.AddVertex(
+        pos3,
+        new Vector3(0, 1, 0),
+        new Vector2(1, 1));
+        int d = builder.AddVertex(
+        pos4,
+        new Vector3(0, 1, 0),
+        new Vector2(secondPoint, 0));
+
+        builder.AddQuad(a, b, c, d);
+    }
     private void BuildPlane(MeshBuilder builder, Vector3 pos1, Vector3 pos2, Vector3 pos3, Vector3 pos4, float uvX, float uvY)
     {
 
@@ -1104,12 +1142,12 @@ public class Piece : MonoBehaviour
         var b = Scale.z;
         var y = Position.y;
 
-        for (int n = 0; n < Scale.y * 10; n++)
+        for (int n = 0; n <= Scale.y * 10; n++)
         {
             //overside
 
             if (a < b)
-                for (int i = 0; i <= (b / a) - 1; i += 1)
+                for (int i = 0; i <= (b / a); i += 1)
                 {
                     builder.VertexMatrix =
                     Matrix4x4.Translate(new Vector3(Position.x, Position.y - n * 0.1f, Position.z + (i * a)));
@@ -1117,7 +1155,7 @@ public class Piece : MonoBehaviour
                 }
 
             if (b < a)
-                for (int i = 0; i <= (a / b) - 1; i += 1)
+                for (int i = 0; i <= (a / b); i += 1)
                 {
                     builder.VertexMatrix =
                     Matrix4x4.Translate(new Vector3(Position.x + (i * b), Position.y - n * 0.1f, Position.z));
@@ -1129,7 +1167,7 @@ public class Piece : MonoBehaviour
             // underside
 
             if (a < b)
-                for (int i = 0; i <= (b / a) - 1; i += 1)
+                for (int i = 0; i <= (b / a); i += 1)
                 {
                     builder.VertexMatrix =
                     Matrix4x4.Translate(new Vector3(Position.x, Position.y - n * 0.1f, Position.z + a * i)) *
@@ -1142,7 +1180,7 @@ public class Piece : MonoBehaviour
                 }
 
             if (b < a)
-                for (int i = 0; i <= (a / b) - 1; i += 1)
+                for (int i = 0; i <= (a / b); i += 1)
                 {
                     builder.VertexMatrix =
                     Matrix4x4.Translate(new Vector3(Position.x + b * i, Position.y - n * 0.1f, Position.z)) *
@@ -1170,7 +1208,7 @@ public class Piece : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 if (a < b)
-                    for (int j = 0; j <= (b / a) - 1; j += 1)
+                    for (int j = 0; j <= (b / a); j += 1)
                     {
                         Matrix4x4 mat =
                         Matrix4x4.identity *
@@ -1185,7 +1223,7 @@ public class Piece : MonoBehaviour
                     }
 
                 if (b < a)
-                    for (int j = 0; j <= (a / b) - 1; j += 1)
+                    for (int j = 0; j <= (a / b); j += 1)
                     {
                         Matrix4x4 mat =
                         Matrix4x4.identity *
